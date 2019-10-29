@@ -4,7 +4,7 @@
 
 NAME		:=	ft_ssl
 BUILDDIR	:=	build
-INCLDIR		:=	includes
+INCLDIR		:=	include
 CDIR		:=	source
 ODIR		:=	obj
 LDIR		:=	libft
@@ -30,7 +30,7 @@ OBJECTS		:=	$(addprefix $(ODIR)/, $(notdir $(CFILES:%.c=%.o)))
 
 all: $(NAME)
 
-test: test.c
+test: test.c | $(LIBFT)
 	@gcc -g $(INCLUDE) $(LIBFT) $^
 
 $(NAME): $(LIBFT) $(OBJECTS)
