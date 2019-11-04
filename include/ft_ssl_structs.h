@@ -6,13 +6,18 @@
 /*   By: viwade <viwade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 11:50:20 by viwade            #+#    #+#             */
-/*   Updated: 2019/11/03 19:57:20 by viwade           ###   ########.fr       */
+/*   Updated: 2019/11/04 04:52:10 by viwade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_SSL_STRUCTS_H
 # define FT_SSL_STRUCTS_H
 # include "ft_ssl.h"
+
+enum	e_error {
+	no_param = 1,
+	file
+};
 
 enum	e_types {
 	string,

@@ -6,7 +6,7 @@
 /*   By: viwade <viwade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 09:18:05 by viwade            #+#    #+#             */
-/*   Updated: 2019/10/28 19:19:03 by viwade           ###   ########.fr       */
+/*   Updated: 2019/11/04 04:51:35 by viwade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,17 @@
 
 static int	get_string(t_option *o, char *s, char *v)
 {
-	t_node		*node;
-	t_object	*object;
+	t_object	obj;
 
-	node = ft_memalloc(sizeof(t_node));
-	object = ft_memalloc(sizeof(t_object));
-	node->content = object;
-	ft_node_insert(node, o->queue);
+	ft_bzero(&obj, sizeof(obj));
 	if (*s)
-		object->data = ft_strdup(s);
+		obj.data = s;
 	else if (v)
-		object->data = ft_strdup(v);
-	object->length = ft_strlen(object->data);
-	object->type = string;
+		obj.data = v;
+	obj.type = string;
+	obj.length = ft_strlen(obj.data);
+	obj.type = string;
+	obj.free = 0;
 	return (!*s);
 }
 
@@ -35,15 +33,17 @@ static int	get_string(t_option *o, char *s, char *v)
 **	If -s, stop parsing. If not end of arg, digest remainder as string.
 */
 
-static int	get_option(t_option *o, char *s, char *v)
+static int	get_option(t_option *o, char *s, char *v, int n)
 {
 	char	*marker;
 
 
 	while (s[0])
 	{
-		if (s[0] == 's')
+		if (s[0] == 's' && n)
 			return (get_string(o, &s[1], v));
+		if (s[0] == 's' && !n)
+			return (parse_error(no_param));
 		else if (s[0] == 'p')
 			o->p = 1;
 		else if (s[0] == 'q' && !(o->r = 0))
@@ -85,7 +85,7 @@ void	parse_option(t_config *config, int n, char **v)
 		if (v[i][0] == '-' && v[i][1] == '-')
 			break ;
 		else if (v[i][0] == '-' && v[i][1])
-			i += get_option(&o, &v[i][1], i + 1 < n ? v[i + 1] : 0);
+			i += get_option(&o, &v[i][1], i + 1 < n ? v[i + 1] : 0, n - i);
 	}
 	print_option(&o);
 	exit(2);
