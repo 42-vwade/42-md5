@@ -25,6 +25,7 @@
 
 typedef union u_digest	t_digest;
 typedef struct s_md5	t_md5;
+typedef struct s_state	t_state;
 
 union	u_128bit
 {
@@ -41,19 +42,35 @@ union	u_digest
 	union u_128bit	d[4];
 };
 
+struct	s_state
+{
+	unsigned int	a;
+	unsigned int	b;
+	unsigned int	c;
+	unsigned int	d;
+};
+
+union	u_state
+{
+	
+};
+
+
 struct	s_md5
 {
 	unsigned int	a;
 	unsigned int	b;
 	unsigned int	c;
 	unsigned int	d;
+	unsigned int	fd;
 	unsigned long	i;
 	unsigned long	length;
 	unsigned int	key[64];
 	unsigned int	message[16];
-	unsigned int	result[4];
+	struct s_state	result;
+	struct s_state	state;
 	t_digest		digest;
-	t_object		*o;
+	t_object		*object;
 };
 
 #endif
