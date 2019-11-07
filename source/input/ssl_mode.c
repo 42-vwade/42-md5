@@ -1,31 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_ssl_global.h                                    :+:      :+:    :+:   */
+/*   ssl_mode.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: viwade <viwade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/17 11:50:20 by viwade            #+#    #+#             */
-/*   Updated: 2019/11/07 08:41:47 by viwade           ###   ########.fr       */
+/*   Created: 2019/11/07 08:10:54 by viwade            #+#    #+#             */
+/*   Updated: 2019/11/07 14:29:07 by viwade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_SSL_GLOBAL_H
-# define FT_SSL_GLOBAL_H
-# include "ft_ssl_structs.h"
+#include "ft_ssl.h"
+#include "ft_ssl_global.h"
 
+void	ssl_mode(t_config *config)
+{
+	int		i;
 
-const t_mode_table	g_mode[] = {
-	{"md5", ssl_md5},
-	{"sha256", ssl_sha256},
-	{0, 0}
-};
-
-const t_jump_table	g_jumptable[] = {
-	{"undefined", 0},
-	{"md5", md5},
-	{"sha256", sha256},
-	{0, 0}
-};
-
-#endif
+	i = 0;
+	while (++i < MODE_SELECT || (i = UNDEFINED))
+		if (ft_strequ(config->verb, g_jumptable[i].mode))
+			break;
+	config->mode = g_jumptable[i].func;
+	if (!config->mode && (config->error = mode_undefined || 1))
+		ssl_error(config);
+}

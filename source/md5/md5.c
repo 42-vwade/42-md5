@@ -6,7 +6,7 @@
 /*   By: viwade <viwade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 09:14:33 by viwade            #+#    #+#             */
-/*   Updated: 2019/11/04 00:50:52 by viwade           ###   ########.fr       */
+/*   Updated: 2019/11/05 01:16:11 by viwade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	g_md5_pad[64] = {
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 	0
 };
-int		g_key[64] = {
+int		g_md5_key[64] = {
 	0xd76aa478, 0xe8c7b756, 0x242070db, 0xc1bdceee,
 	0xf57c0faf, 0x4787c62a, 0xa8304613, 0xfd469501,
 	0x698098d8, 0x8b44f7af, 0xffff5bb1, 0x895cd7be,
@@ -62,7 +62,7 @@ static int
 			md5->g = (3 * md5->i + 5) % 16;
 		else if (md5->i < 64 && ((md5->f = I(md5->b, md5->c, md5->d)) || 1))
 			md5->g = (7 * md5->i) % 16;
-		md5->f = md5->f + md5->a + g_key[md5->i] + md5->message[md5->g];
+		md5->f = md5->f + md5->a + g_md5_key[md5->i] + md5->message[md5->g];
 		S(md5->a, md5->b, md5->c, md5->d);
 		md5->b += R(md5->f, g_md5_shift[((md5->i / 16) * 4) + (md5->i % 4)]);
 		md5->i++;
@@ -140,6 +140,7 @@ int
 	t_node	*node;
 
 	ft_bzero(&md5, sizeof(md5));
+	ft_memcpy(md5.result, (int[4]){A, B, C, D}, sizeof(int[4]));
 	md5.result[0] = A;
 	md5.result[1] = B;
 	md5.result[2] = C;

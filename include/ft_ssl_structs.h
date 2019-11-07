@@ -6,7 +6,7 @@
 /*   By: viwade <viwade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 11:50:20 by viwade            #+#    #+#             */
-/*   Updated: 2019/11/04 04:52:10 by viwade           ###   ########.fr       */
+/*   Updated: 2019/11/07 14:41:42 by viwade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,20 @@
 
 enum	e_error {
 	no_param = 1,
+	mode_undefined,
 	file
 };
 
 enum	e_types {
 	string,
 	file
+};
+
+enum	e_modes {
+	UNDEFINED,
+	MD5,
+	SHA256,
+	MODE_SELECT
 };
 
 typedef struct s_option	t_option;
@@ -61,13 +69,13 @@ struct	s_object
 
 struct	s_option
 {
-	t_queue			*queue;
 	unsigned char	s:	1;
 	unsigned char	p:	1;
 	unsigned char	q:	1;
 	unsigned char	r:	1;
 	unsigned char	t:	1;
 	unsigned char	x:	1;
+	t_queue			*queue;
 };
 
 struct	s_mode_table
@@ -78,8 +86,8 @@ struct	s_mode_table
 
 struct	s_jump_table
 {
-	char	*func;
-	int		(*f)(t_config *);
+	char	*mode;
+	int		(*func)(t_config *);
 };
 
 struct	s_config
@@ -87,6 +95,10 @@ struct	s_config
 	int			argc;
 	char		**argv;
 	char		*prgnm;
+	char		verb[32];
+	int			error;
+	int			errno;
+	t_option	option;
 	t_queue		queue;
 	int			(*mode)(t_config *);
 };
