@@ -6,7 +6,7 @@
 /*   By: viwade <viwade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 09:18:05 by viwade            #+#    #+#             */
-/*   Updated: 2019/11/07 14:41:17 by viwade           ###   ########.fr       */
+/*   Updated: 2019/11/07 14:50:02 by viwade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ void	parse_option(t_config *config)
 			i += get_option(config, &config->argv[i][1],
 				i + 1 < config->argc ? config->argv[i + 1] : 0);
 	}
-	print_option(&o);
+	print_option(&config->option);
 	exit(2);
-	return (o);
 }
