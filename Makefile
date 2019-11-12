@@ -13,7 +13,7 @@ LIBFT		:=	$(LDIR)/libft.a
 CFILES		:=	$(shell find $(CDIR) ! -name "._*" -regex ".*\\.[c]")
 HFILES		:=	$(shell find $(INCLDIR) ! -name "._*" -regex ".*\\.[h]")
 LFILES		:=	$(shell find $(dir $(LIBFT)) ! -name "._*" -regex ".*\\.[c]")
-INCLUDE		:=	-I $(INCLDIR) -I $(LINCL)
+INCLUDE		:=	-I $(abspath $(INCLDIR)) -I $(abspath $(LINCL))
 FLAGS		:=	$(INCLUDE) -Wall -Wextra
 FLAGS		:=	$(FLAGS) -Werror
 
@@ -37,7 +37,7 @@ $(NAME): $(LIBFT) $(OBJECTS)
 	@gcc $(FLAGS) -o $@ -L $(<D) -lft $(OBJECTS)
 
 $(OBJECTS): $(CFILES) | $(ODIR)
-	@cd $(@D); gcc -c $(FLAGS) $^
+	@cd $(@D); gcc -c $(FLAGS)  $(abspath $^)
 #	@cd $(@D); $(foreach srcf, $(abspath $^), gcc -c $(FLAGS) $(srcf);)
 
 $(LIBFT): | $(ODIR)

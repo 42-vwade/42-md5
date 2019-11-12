@@ -6,7 +6,7 @@
 /*   By: viwade <viwade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 11:50:20 by viwade            #+#    #+#             */
-/*   Updated: 2019/11/07 14:41:42 by viwade           ###   ########.fr       */
+/*   Updated: 2019/11/12 14:22:17 by viwade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,7 @@
 
 enum	e_error {
 	no_param = 1,
-	mode_undefined,
-	file
+	mode_undefined
 };
 
 enum	e_types {
@@ -69,7 +68,7 @@ struct	s_object
 
 struct	s_option
 {
-	unsigned char	s:	1;
+	unsigned char	*s;
 	unsigned char	p:	1;
 	unsigned char	q:	1;
 	unsigned char	r:	1;
