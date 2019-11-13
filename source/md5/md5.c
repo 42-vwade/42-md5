@@ -6,7 +6,7 @@
 /*   By: viwade <viwade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 09:14:33 by viwade            #+#    #+#             */
-/*   Updated: 2019/11/05 01:16:11 by viwade           ###   ########.fr       */
+/*   Updated: 2019/11/12 16:05:59 by viwade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ int		g_md5_key[64] = {
 	0xf7537e82, 0xbd3af235, 0x2ad7d2bb, 0xeb86d391
 };
 
-static int
-	mds_alorithm(t_md5 *md5)
+static void
+	md5_algorithm(t_md5 *md5)
 {
 	md5->i = 0;
 	md5->a = md5->result[0];
@@ -107,7 +107,7 @@ static void
 			break;
 	}
 	if (md5->nb == -1)
-		md5_error();
+		ft_error("ft_ssl: MD5: read error");
 }
 
 static void

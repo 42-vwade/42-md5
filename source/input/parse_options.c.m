@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_options.c                                    :+:      :+:    :+:   */
+/*   parse_options.c.m                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: viwade <viwade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 09:18:05 by viwade            #+#    #+#             */
-/*   Updated: 2019/11/12 15:00:34 by viwade           ###   ########.fr       */
+/*   Updated: 2019/11/12 17:52:04 by viwade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,9 +88,8 @@ void	parse_option(t_config *config)
 		else if (config->argv[i][0] == '-' && (
 			config->option.s = ft_strchr(&config->argv[i][1], 's')) && ((
 			config->option.s[1] && (config->option.s = &config->option.s[1])) ||
-			((i + 1 < config->argc) && (config->option.s = config->argv[i + 1]))
-		))
-			;
+		((i + 1 < config->argc) && (config->option.s = config->argv[i + 1]))))
+			do_something()
 		else if (config->argv[i][0] == '-' && config->argv[i][1])
 			i += get_option(config, &config->argv[i][1],
 				i + 1 < config->argc ? config->argv[i + 1] : 0);

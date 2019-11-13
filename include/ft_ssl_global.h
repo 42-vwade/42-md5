@@ -6,20 +6,14 @@
 /*   By: viwade <viwade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 11:50:20 by viwade            #+#    #+#             */
-/*   Updated: 2019/11/07 08:41:47 by viwade           ###   ########.fr       */
+/*   Updated: 2019/11/12 17:10:00 by viwade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_SSL_GLOBAL_H
 # define FT_SSL_GLOBAL_H
+# include "ft_ssl.h"
 # include "ft_ssl_structs.h"
-
-
-const t_mode_table	g_mode[] = {
-	{"md5", ssl_md5},
-	{"sha256", ssl_sha256},
-	{0, 0}
-};
 
 const t_jump_table	g_jumptable[] = {
 	{"undefined", 0},

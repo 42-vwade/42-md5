@@ -6,7 +6,7 @@
 /*   By: viwade <viwade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/07 09:18:14 by viwade            #+#    #+#             */
-/*   Updated: 2019/11/07 12:46:46 by viwade           ###   ########.fr       */
+/*   Updated: 2019/11/12 17:49:41 by viwade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ void
 
 	write(1, "usage: ", 7);
 	ft_putstr(ft_basename(config->prgnm));
-	usage = "command [command_options] [command_args]\n"
+	usage = ": command [command_options] [command_args]\n"
 		"\n"
 		"Message Digest Commands\n"
 		"md5\t""sha256\n\n"
 	;
-	write(1, usage, 92);
+	write(1, usage, 80);
 }

@@ -51,7 +51,7 @@ struct	s_md5
 	unsigned int	f;
 	unsigned int	g;
 	unsigned int	fd;
-	unsigned long	nb;
+	signed long		nb;
 	unsigned long	i;
 	unsigned long	len;
 	unsigned long	length;
@@ -62,7 +62,5 @@ struct	s_md5
 	t_digest		digest;
 	t_object		*object;
 };
-
-static int	md5_algorithm(t_md5 *md5_object);
 
 #endif
