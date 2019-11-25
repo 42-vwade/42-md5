@@ -6,7 +6,7 @@
 /*   By: viwade <viwade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 09:14:33 by viwade            #+#    #+#             */
-/*   Updated: 2019/11/18 16:48:28 by viwade           ###   ########.fr       */
+/*   Updated: 2019/11/25 05:55:53 by viwade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,20 +134,29 @@ static void
 
 
 int
-	md5(t_config *o)
+	md5(t_config *cfg)
 {
 	t_md5	md5;
 	t_node	*node;
 
-	if (!md5_config(o->argc, o->argv, o))
-		ft_error("ft_ssl: md5: Invalid parameters. Exiting.");
+/*	if (!md5_configure(cfg->argc, cfg->argv, cfg))
+		ft_error("ft_ssl: md5: Invalid parameters. Exiting.");//*/
 	ft_bzero(&md5, sizeof(md5));
 	ft_memcpy(md5.result, (int[4]){A, B, C, D}, sizeof(int[4]));
 	md5.result[0] = A;
 	md5.result[1] = B;
 	md5.result[2] = C;
 	md5.result[3] = D;
-	node = o->queue.next;
+	{	/*	TEST //	*/
+		t_object test;
+		ft_bzero(&test, sizeof(test));
+		test.data = "";
+		test.fd = 0;
+		md5.object = &test;
+		md5_string(&md5);
+		return (md5.ret);
+	}//*/
+	node = cfg->queue.next;
 	while (node)
 	{
 		md5.object = node->content;
