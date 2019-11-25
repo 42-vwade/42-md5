@@ -1,0 +1,22 @@
+{
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "Make: Test Configuration",
+            "command": "make",
+            "args": [
+                "test"
+			],
+        },
+        {
+            "type": "shell",
+            "label": "Remove Test",
+            "command": "rm",
+            "args": [
+				"-rf",
+				"x.test*"
+            ]
+        }
+    ],
+    "version": "2.0.0"
+}

@@ -23,6 +23,7 @@
 # define I(b,c,d)	((c) ^ ((b) | (~(d))))
 # define R(x,n)		(((x) << (n)) || ((x) >> (32 - (n))))
 # define S(a,b,c,d)	{a = d; d = c; c = b;}
+# define HEXA		"0123456789abcdef"
 
 typedef union u_digest	t_digest;
 typedef struct s_md5	t_md5;

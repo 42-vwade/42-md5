@@ -7,7 +7,8 @@ BUILDDIR	:=	build
 INCLDIR		:=	include
 CDIR		:=	source
 ODIR		:=	obj
-LDIR		:=	libft
+LIB			:=	lib
+LDIR		:=	$(LIB)/libft
 LINCL		:=	$(LDIR)/include
 LIBFT		:=	$(LDIR)/libft.a
 CFILES		:=	$(shell find $(CDIR) ! -name "._*" -regex ".*\\.[c]")
@@ -30,8 +31,11 @@ OBJECTS		:=	$(addprefix $(ODIR)/, $(notdir $(CFILES:%.c=%.o)))
 
 all: $(NAME)
 
-test: test.c | $(LIBFT)
-	@gcc -g $(INCLUDE) $(LIBFT) $^
+#test: test.c | $(LIBFT)
+#	@gcc -g $(INCLUDE) $(LIBFT) $^
+
+test: test.c source/md5/md5.c $(LFILES)
+	@gcc -o x.test -g $(INCLUDE) $^
 
 $(NAME): $(LIBFT) $(OBJECTS)
 	@gcc $(FLAGS) -o $@ -L $(<D) -lft $(OBJECTS)

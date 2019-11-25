@@ -6,7 +6,7 @@
 /*   By: viwade <viwade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 09:14:33 by viwade            #+#    #+#             */
-/*   Updated: 2019/11/25 05:55:53 by viwade           ###   ########.fr       */
+/*   Updated: 2019/11/25 10:13:51 by viwade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,14 @@ int		g_md5_key[64] = {
 
 static void
 	md5_algorithm(t_md5 *md5)
-{
-	md5->i = 0;
+{		print_memory(md5->result, sizeof(md5->result));
 	md5->a = md5->result[0];
 	md5->b = md5->result[1];
 	md5->c = md5->result[2];
 	md5->d = md5->result[3];
 	while (md5->i < 64)
-	{
+	{		print_memory((int[]){md5->a, md5->b, md5->c, md5->d}, sizeof(int[4]));
+			ft_printf("%b %b %b %b\n", md5->a, md5->b, md5->c, md5->d);
 		if (md5->i < 16 && ((md5->f = F(md5->b, md5->c, md5->d)) || 1))
 			md5->g = md5->i;
 		else if (md5->i < 32 && ((md5->f = G(md5->b, md5->c, md5->d)) || 1))
@@ -67,15 +67,19 @@ static void
 		md5->b += R(md5->f, g_md5_shift[((md5->i / 16) * 4) + (md5->i % 4)]);
 		md5->i++;
 	}
+	ft_putendl(0);
 	md5->result[0] += md5->a;
 	md5->result[1] += md5->b;
 	md5->result[2] += md5->c;
 	md5->result[3] += md5->d;
+	print_memory(md5->message, sizeof(md5->message));
+	print_memory(md5->result, sizeof(md5->result));
 }
 
 static void
 	md5_message(t_md5 *md5)
 {
+	md5->i = 0;
 	if (md5->nb < 56)
 	{	// if fewer than 448 bits have been read
 		((char *)md5->message)[md5->nb] = 0x80;
@@ -115,7 +119,7 @@ static void
 {
 	md5->len = ft_strlen(md5->object->data);
 	md5->length = md5->len * 8;
-	while (md5->object->data < &md5->object->data[md5->len])
+	while (md5->object->data[0])
 	{
 		md5->nb = &md5->object->data[md5->len] - md5->object->data;
 		if (md5->nb < 64)
@@ -132,6 +136,27 @@ static void
 	}
 }
 
+static void
+	md5_print(t_md5 *md5)
+{
+	int		i = 0;
+	char	hex[32 + 1];
+
+	ft_memset(hex, '-', sizeof(hex));
+	print_memory(md5->result, sizeof(md5->result));
+	/*return;//*/
+	while (i < 32)
+	{
+		hex[i] = HEXA[0xf & (md5->result[i / 8] >> (4 * ((i + 1) % 8)))];
+		hex[i + 1] = HEXA[0xf & (md5->result[i / 8] >> (4 * (i % 8)))];
+		ft_printf("md5_print[%i]: %hhi | %c\t",	i,
+			0xf & (md5->result[i / 8] >> (4 * (i % 8))), hex[i]);
+		i += 2;
+		(!(i % 2) || 1) && (write(1, hex, i) && write(1, "\n", 1));
+	}
+	hex[32]	= 0;
+	write(1, hex, 32);
+}
 
 int
 	md5(t_config *cfg)
@@ -142,20 +167,20 @@ int
 /*	if (!md5_configure(cfg->argc, cfg->argv, cfg))
 		ft_error("ft_ssl: md5: Invalid parameters. Exiting.");//*/
 	ft_bzero(&md5, sizeof(md5));
-	ft_memcpy(md5.result, (int[4]){A, B, C, D}, sizeof(int[4]));
-	md5.result[0] = A;
+	ft_memcpy(md5.result, (int[]){A, B, C, D}, sizeof(int[4]));
+/*	md5.result[0] = A;
 	md5.result[1] = B;
 	md5.result[2] = C;
-	md5.result[3] = D;
+	md5.result[3] = D;//*/
 	{	/*	TEST //	*/
 		t_object test;
 		ft_bzero(&test, sizeof(test));
-		test.data = "";
+		test.data = "a";
 		test.fd = 0;
 		md5.object = &test;
 		md5_string(&md5);
-		return (md5.ret);
-	}//*/
+		md5_print(&md5);
+		return (md5.ret);	}//*/
 	node = cfg->queue.next;
 	while (node)
 	{
