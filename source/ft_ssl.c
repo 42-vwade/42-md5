@@ -6,7 +6,7 @@
 /*   By: viwade <viwade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/07 07:20:06 by viwade            #+#    #+#             */
-/*   Updated: 2019/11/07 14:29:52 by viwade           ###   ########.fr       */
+/*   Updated: 2019/11/18 16:09:58 by viwade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int
 {
 	ft_strlowercase(ft_strncpy(config->verb, config->argv[1], 32));
 	ssl_mode(config);
-	ssl_config(config);
 	if (config->mode)
 		return (config->mode(config));
 	return (config->errno);

@@ -37,7 +37,7 @@ $(NAME): $(LIBFT) $(OBJECTS)
 	@gcc $(FLAGS) -o $@ -L $(<D) -lft $(OBJECTS)
 
 $(OBJECTS): $(CFILES) | $(ODIR)
-	@cd $(@D); gcc -c $(FLAGS)  $(abspath $^)
+	@cd $(@D); gcc -c $(FLAGS) $(abspath $^)
 #	@cd $(@D); $(foreach srcf, $(abspath $^), gcc -c $(FLAGS) $(srcf);)
 
 $(LIBFT): | $(ODIR)

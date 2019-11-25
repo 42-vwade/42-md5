@@ -1,28 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ssl_mode.c                                         :+:      :+:    :+:   */
+/*   md5_parameters.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: viwade <viwade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/07 08:10:54 by viwade            #+#    #+#             */
-/*   Updated: 2019/11/18 16:08:50 by viwade           ###   ########.fr       */
+/*   Created: 2019/11/18 16:10:10 by viwade            #+#    #+#             */
+/*   Updated: 2019/11/18 20:35:57 by viwade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_ssl.h"
-#include "ft_ssl_global.h"
+#include "md5.h"
 
-void	ssl_mode(t_config *config)
+static t_bool
+	parse_args(int n, char **v, t_option *o, int *i)
+{
+	t_bool	ok = 0;
+
+	i[0] = 1;
+	ft_bzero(o, sizeof(*o));
+	while ((i[0] += 1) < n)
+	{
+		if ((v[*i][0] == '-' && v[*i][1] == '-') || !(ok = 1))
+			break;
+		{}
+	}
+	return (ok);
+}
+
+t_bool
+	md5_configure(int n, char **v, t_config *config)
 {
 	int		i;
+	t_bool	ok = 0;
 
-	i = 0;
-	while (++i < MODE_SELECT || (i = UNDEFINED))
-		if (ft_strequ(config->verb, g_jumptable[i].mode))
-			break;
-	config->mode = g_jumptable[i].func;
-	if (!config->mode && (config->error = mode_undefined || 1))
-		ssl_error(config);
-	ft_printf("%s: selected mode: %s\n", config->prgnm, g_jumptable[i].mode);
+	parse_args(n, v, &config->option, &i);
+	return (ok);
 }

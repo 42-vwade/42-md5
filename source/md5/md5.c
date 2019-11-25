@@ -6,7 +6,7 @@
 /*   By: viwade <viwade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 09:14:33 by viwade            #+#    #+#             */
-/*   Updated: 2019/11/12 16:05:59 by viwade           ###   ########.fr       */
+/*   Updated: 2019/11/18 16:48:28 by viwade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,8 @@ int
 	t_md5	md5;
 	t_node	*node;
 
+	if (!md5_config(o->argc, o->argv, o))
+		ft_error("ft_ssl: md5: Invalid parameters. Exiting.");
 	ft_bzero(&md5, sizeof(md5));
 	ft_memcpy(md5.result, (int[4]){A, B, C, D}, sizeof(int[4]));
 	md5.result[0] = A;

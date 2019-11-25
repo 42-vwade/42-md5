@@ -63,4 +63,6 @@ struct	s_md5
 	t_object		*object;
 };
 
+t_bool	md5_configure(int n, char **v, t_config *config);
+
 #endif
