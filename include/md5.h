@@ -17,11 +17,12 @@
 # define B	0xefcdab89
 # define C	0x98BADCFE
 # define D	0x10325476
-# define F(b,c,d)	(((b) & (c)) | (~(b) & (d)))
-# define G(b,c,d)	(((b) & (c)) | ((b) & ~(d)))
-# define H(b,c,d)	(((b) ^ (c) ^ (d)))
-# define I(b,c,d)	((c) ^ ((b) | (~(d))))
-# define R(x,n)		(((x) << (n)) || ((x) >> (32 - (n))))
+# define F(b,c,d)	((b & c) | (~b & d))
+# define G(b,c,d)	((d & b) | (~d & c))
+//# define G(b,c,d)	(((b) & (c)) | ((b) & ~(d)))
+# define H(b,c,d)	((b ^ c ^ d))
+# define I(b,c,d)	((c ^ (b |~ d)))
+# define R(x,n)		(((x) << (n)) | ((x) >> (32 - (n))))
 # define S(a,b,c,d)	{a = d; d = c; c = b;}
 # define HEXA		"0123456789abcdef"
 

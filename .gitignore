@@ -11,6 +11,7 @@ a.out*
 
 .libft
 test.c
+x.test*
 libft/.git
 
 *.swp

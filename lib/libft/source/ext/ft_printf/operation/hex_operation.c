@@ -6,7 +6,7 @@
 /*   By: viwade <viwade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 06:01:13 by viwade            #+#    #+#             */
-/*   Updated: 2019/09/26 14:49:44 by viwade           ###   ########.fr       */
+/*   Updated: 2019/11/25 10:58:21 by viwade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,18 @@ static FT_SIZE
 	convert_x(t_format *o)
 {
 	char	u;
+	char	pad[64];
+	size_t	l;
+	size_t	len;
 
 	u = ft_tolower(o->str[0]);
-	MATCH(u == 'b', u = 2);
+	l = o->p.length * 8;
+	MATCH(u == 'b', (u = 2) && ft_memset(pad, 0, l));
 	ELSE(u = 16 >> (u == 'o'));
 	MATCH(o->p.tick & 4 && !o->p.precision && !*(ll_t*)o->v, o->v = 0);
 	ELSE(o->v = ft_itoa_base(*(ull_t*)o->v, u));
+	MATCH(u == 2 && (len = ft_strlen(o->v) % l) && ft_memset(pad, '0', l - len),
+		o->v = ft_append(pad, o->v, 2));
 	precision_i(o);
 	width_o(o);
 	append_s(o);

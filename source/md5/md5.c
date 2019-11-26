@@ -6,26 +6,22 @@
 /*   By: viwade <viwade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 09:14:33 by viwade            #+#    #+#             */
-/*   Updated: 2019/11/25 10:13:51 by viwade           ###   ########.fr       */
+/*   Updated: 2019/11/25 17:55:18 by viwade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "md5.h"
 
-int		g_md5_shift[16] = {
+unsigned
+	g_md5_shift[16] = {
 	7, 12, 17, 22,
 	5, 9, 14, 20,
 	4, 11, 16, 23,
 	6, 10, 15, 21
 };
-char	g_md5_pad[64] = {
-	0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0
-};
-int		g_md5_key[64] = {
+
+unsigned
+	g_md5_key[64] = {
 	0xd76aa478, 0xe8c7b756, 0x242070db, 0xc1bdceee,
 	0xf57c0faf, 0x4787c62a, 0xa8304613, 0xfd469501,
 	0x698098d8, 0x8b44f7af, 0xffff5bb1, 0x895cd7be,
@@ -46,14 +42,14 @@ int		g_md5_key[64] = {
 
 static void
 	md5_algorithm(t_md5 *md5)
-{		print_memory(md5->result, sizeof(md5->result));
+{	//	print_memory(md5->result, sizeof(md5->result));
 	md5->a = md5->result[0];
 	md5->b = md5->result[1];
 	md5->c = md5->result[2];
 	md5->d = md5->result[3];
 	while (md5->i < 64)
-	{		print_memory((int[]){md5->a, md5->b, md5->c, md5->d}, sizeof(int[4]));
-			ft_printf("%b %b %b %b\n", md5->a, md5->b, md5->c, md5->d);
+	{	//print_memory((int[]){md5->a, md5->b, md5->c, md5->d}, sizeof(int[4]));
+		//	ft_printf("%b %b %b %b\n", md5->a, md5->b, md5->c, md5->d);
 		if (md5->i < 16 && ((md5->f = F(md5->b, md5->c, md5->d)) || 1))
 			md5->g = md5->i;
 		else if (md5->i < 32 && ((md5->f = G(md5->b, md5->c, md5->d)) || 1))
@@ -62,18 +58,16 @@ static void
 			md5->g = (3 * md5->i + 5) % 16;
 		else if (md5->i < 64 && ((md5->f = I(md5->b, md5->c, md5->d)) || 1))
 			md5->g = (7 * md5->i) % 16;
-		md5->f = md5->f + md5->a + g_md5_key[md5->i] + md5->message[md5->g];
+		md5->f += md5->a + g_md5_key[md5->i] + md5->message[md5->g];
 		S(md5->a, md5->b, md5->c, md5->d);
-		md5->b += R(md5->f, g_md5_shift[((md5->i / 16) * 4) + (md5->i % 4)]);
+		md5->b = R(md5->f, g_md5_shift[((md5->i / 16) * 4) + (md5->i % 4)]);
+		md5->b += md5->c;
 		md5->i++;
 	}
-	ft_putendl(0);
 	md5->result[0] += md5->a;
 	md5->result[1] += md5->b;
 	md5->result[2] += md5->c;
 	md5->result[3] += md5->d;
-	print_memory(md5->message, sizeof(md5->message));
-	print_memory(md5->result, sizeof(md5->result));
 }
 
 static void
@@ -119,20 +113,24 @@ static void
 {
 	md5->len = ft_strlen(md5->object->data);
 	md5->length = md5->len * 8;
-	while (md5->object->data[0])
+	while (
+		&md5->object->data[md5->object->offset] <= &md5->object->data[md5->len])
 	{
-		md5->nb = &md5->object->data[md5->len] - md5->object->data;
+		md5->nb =
+		&md5->object->data[md5->len] - &md5->object->data[md5->object->offset];
 		if (md5->nb < 64)
 		{
 			ft_memcpy(md5->message, md5->object->data, md5->nb);
-			md5->object->data += md5->nb;
+			md5->object->offset += md5->nb;
 		}
 		else
 		{
 			ft_memcpy(md5->message, md5->object->data, 64);
-			md5->object->data += 64;
+			md5->object->offset += 64;
 		}
 		md5_message(md5);
+		if (!md5->nb)
+			break;
 	}
 }
 
@@ -149,13 +147,13 @@ static void
 	{
 		hex[i] = HEXA[0xf & (md5->result[i / 8] >> (4 * ((i + 1) % 8)))];
 		hex[i + 1] = HEXA[0xf & (md5->result[i / 8] >> (4 * (i % 8)))];
-		ft_printf("md5_print[%i]: %hhi | %c\t",	i,
-			0xf & (md5->result[i / 8] >> (4 * (i % 8))), hex[i]);
+		// ft_printf("md5_print[%i]: %hhi | %c\t",	i,
+		// 	0xf & (md5->result[i / 8] >> (4 * (i % 8))), hex[i]);
 		i += 2;
-		(!(i % 2) || 1) && (write(1, hex, i) && write(1, "\n", 1));
+		//(!(i % 2) || 1) && (write(1, hex, i) && write(1, "\n", 1));
 	}
 	hex[32]	= 0;
-	write(1, hex, 32);
+	ft_printf("MD5 (\"%s\") = %s\n", md5->object->data, hex);
 }
 
 int
@@ -173,15 +171,15 @@ int
 	md5.result[2] = C;
 	md5.result[3] = D;//*/
 	{	/*	TEST //	*/
-		t_object test;
-		ft_bzero(&test, sizeof(test));
-		test.data = "a";
-		test.fd = 0;
-		md5.object = &test;
+		// t_object test;
+		// ft_bzero(&test, sizeof(test));
+		// test.data = "";
+		// test.fd = 0;
+		md5.object = &cfg->obj;
 		md5_string(&md5);
 		md5_print(&md5);
 		return (md5.ret);	}//*/
-	node = cfg->queue.next;
+/*	node = cfg->queue.next;
 	while (node)
 	{
 		md5.object = node->content;
@@ -190,6 +188,6 @@ int
 		else if (md5.object->type == string)
 			md5_string(&md5);
 		node = node->next;
-	}
+	}//*/
 	return (md5.ret);
 }

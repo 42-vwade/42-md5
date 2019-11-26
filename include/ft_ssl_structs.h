@@ -6,7 +6,7 @@
 /*   By: viwade <viwade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 11:50:20 by viwade            #+#    #+#             */
-/*   Updated: 2019/11/18 20:37:22 by viwade           ###   ########.fr       */
+/*   Updated: 2019/11/25 17:41:17 by viwade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,8 @@ struct	s_config
 	char		verb[32];
 	int			error;
 	int			errno;
-	t_option	option;
-	t_queue		queue;
+	t_option	args;
+	t_object	obj;
 	int			(*mode)(t_config *);
 };
 
