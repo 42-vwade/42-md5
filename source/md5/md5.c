@@ -6,7 +6,7 @@
 /*   By: viwade <viwade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 09:14:33 by viwade            #+#    #+#             */
-/*   Updated: 2019/11/25 17:55:18 by viwade           ###   ########.fr       */
+/*   Updated: 2019/11/25 18:12:51 by viwade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,8 +113,10 @@ static void
 {
 	md5->len = ft_strlen(md5->object->data);
 	md5->length = md5->len * 8;
+	if (!md5->len)
+		md5_message(md5);
 	while (
-		&md5->object->data[md5->object->offset] <= &md5->object->data[md5->len])
+		&md5->object->data[md5->object->offset] < &md5->object->data[md5->len])
 	{
 		md5->nb =
 		&md5->object->data[md5->len] - &md5->object->data[md5->object->offset];
@@ -129,8 +131,6 @@ static void
 			md5->object->offset += 64;
 		}
 		md5_message(md5);
-		if (!md5->nb)
-			break;
 	}
 }
 
