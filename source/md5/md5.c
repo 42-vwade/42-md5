@@ -6,7 +6,7 @@
 /*   By: viwade <viwade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 09:14:33 by viwade            #+#    #+#             */
-/*   Updated: 2019/11/25 18:12:51 by viwade           ###   ########.fr       */
+/*   Updated: 2019/12/04 16:50:06 by viwade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,13 @@ unsigned
 
 static void
 	md5_algorithm(t_md5 *md5)
-{	//	print_memory(md5->result, sizeof(md5->result));
+{
 	md5->a = md5->result[0];
 	md5->b = md5->result[1];
 	md5->c = md5->result[2];
 	md5->d = md5->result[3];
-	while (md5->i < 64)
-	{	//print_memory((int[]){md5->a, md5->b, md5->c, md5->d}, sizeof(int[4]));
-		//	ft_printf("%b %b %b %b\n", md5->a, md5->b, md5->c, md5->d);
+	while (md5->i < 64 || (md5->i = 0))
+	{
 		if (md5->i < 16 && ((md5->f = F(md5->b, md5->c, md5->d)) || 1))
 			md5->g = md5->i;
 		else if (md5->i < 32 && ((md5->f = G(md5->b, md5->c, md5->d)) || 1))
@@ -58,10 +57,10 @@ static void
 			md5->g = (3 * md5->i + 5) % 16;
 		else if (md5->i < 64 && ((md5->f = I(md5->b, md5->c, md5->d)) || 1))
 			md5->g = (7 * md5->i) % 16;
-		md5->f += md5->a + g_md5_key[md5->i] + md5->message[md5->g];
+		md5->f = md5->b + R(md5->a + md5->f + g_md5_key[md5->i] +
+		md5->message[md5->g], g_md5_shift[((md5->i / 16) * 4) + (md5->i % 4)]);
 		S(md5->a, md5->b, md5->c, md5->d);
-		md5->b = R(md5->f, g_md5_shift[((md5->i / 16) * 4) + (md5->i % 4)]);
-		md5->b += md5->c;
+		md5->b = md5->f;
 		md5->i++;
 	}
 	md5->result[0] += md5->a;
@@ -73,7 +72,6 @@ static void
 static void
 	md5_message(t_md5 *md5)
 {
-	md5->i = 0;
 	if (md5->nb < 56)
 	{	// if fewer than 448 bits have been read
 		((char *)md5->message)[md5->nb] = 0x80;
@@ -84,7 +82,7 @@ static void
 	else if (md5->nb < 64)
 	{	// if fewer than 512 bits have been read, & more than 448
 		((char *)md5->message)[md5->nb] = 0x80;
-		ft_memset(&((char *)md5->message)[md5->nb + 1], 0, 64 - md5->nb);
+		ft_memset(&((char *)md5->message)[md5->nb + 1], 0, 64 - (md5->nb + 1));
 		md5_algorithm(md5);
 		ft_memset(&((char *)md5->message)[0], 0, 56);
 		ft_memcpy(&((char *)md5->message)[56], &md5->length, 8);
@@ -111,26 +109,25 @@ static void
 static void
 	md5_string(t_md5 *md5)
 {
-	md5->len = ft_strlen(md5->object->data);
-	md5->length = md5->len * 8;
-	if (!md5->len)
+	md5->nb = ft_strlen(md5->object->data);
+	md5->length = md5->nb * 8;
+	if (!(md5->len = md5->nb))
 		md5_message(md5);
-	while (
-		&md5->object->data[md5->object->offset] < &md5->object->data[md5->len])
+	while (md5->nb)
 	{
-		md5->nb =
-		&md5->object->data[md5->len] - &md5->object->data[md5->object->offset];
-		if (md5->nb < 64)
-		{
-			ft_memcpy(md5->message, md5->object->data, md5->nb);
-			md5->object->offset += md5->nb;
-		}
-		else
-		{
-			ft_memcpy(md5->message, md5->object->data, 64);
-			md5->object->offset += 64;
-		}
+		ft_memcpy(md5->message, &md5->object->data[md5->object->offset], md5->nb
+			< 64 ? md5->nb : 64);
+		md5->object->offset += md5->nb < 64 ? md5->nb : 64;
 		md5_message(md5);
+		if ((md5->nb = md5->len - md5->object->offset) == 64)
+		{
+			ft_memcpy(
+				md5->message, &md5->object->data[md5->object->offset], 64);
+			md5->object->offset += 64;
+			md5_message(md5);
+			md5->nb -= 64;
+			md5_message(md5);
+		}
 	}
 }
 
@@ -141,7 +138,7 @@ static void
 	char	hex[32 + 1];
 
 	ft_memset(hex, '-', sizeof(hex));
-	print_memory(md5->result, sizeof(md5->result));
+	//print_memory(md5->result, sizeof(md5->result));
 	/*return;//*/
 	while (i < 32)
 	{

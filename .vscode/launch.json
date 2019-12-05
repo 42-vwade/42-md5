@@ -8,7 +8,8 @@
 			"name": "Build: Test"
 			,	"type": "cppdbg"
 			,	"request": "launch"
-			,	"program": "echo Build task."
+			,	"program": "/bin/ls"
+			,	"cwd": "${workspaceFolder}"
 			,	"preLaunchTask": "Make: Test Configuration"
 		},
 		{
@@ -31,6 +32,24 @@
 			,	"request": "launch"
 			,	"program": "${workspaceFolder}/x.test"
 			,	"args": []
+			,	"stopAtEntry": false
+			,	"cwd": "${workspaceFolder}"
+			,	"environment": []
+			,	"externalConsole": false
+			,	"MIMode": "lldb"
+		},
+		{
+			"name": "Arg: Test"
+			,	"type": "cppdbg"
+			,	"request": "launch"
+			,	"program": "${workspaceFolder}/x.test"
+			,	"args": [
+				"abc",
+				"ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+				"abcefghijklmnoprqstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234",
+				"abcefghijklmnoprqstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234abcefghijklmnoprqstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234",
+				"900150983cd24fb0d6963f7d28e17f72900150983cd24fb0d6963f7d28e17f72900150983cd24fb0d6963f7d28e17f72900150983cd24fb0d6963f7d28e17f72"
+			]
 			,	"stopAtEntry": false
 			,	"cwd": "${workspaceFolder}"
 			,	"environment": []
