@@ -34,7 +34,8 @@ all: $(NAME)
 #test: test.c | $(LIBFT)
 #	@gcc -g $(INCLUDE) $(LIBFT) $^
 
-test: test.c source/md5/md5.c $(LFILES)
+#test: test.c source/md5/md5.c $(LFILES)
+test: test.c source/input/open_fd.c $(LFILES)
 	@gcc -o x.test -g $(INCLUDE) $^
 
 $(NAME): $(LIBFT) $(OBJECTS)

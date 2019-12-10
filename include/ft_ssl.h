@@ -6,7 +6,7 @@
 /*   By: viwade <viwade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 11:47:37 by viwade            #+#    #+#             */
-/*   Updated: 2019/11/07 14:40:13 by viwade           ###   ########.fr       */
+/*   Updated: 2019/12/04 17:28:36 by viwade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,11 @@ int		md5(t_config *config);
 int		sha256(t_config *config);
 int		ssl_md5(int n, char **v);
 int		ssl_sha256(int n, char **v);
+
+/*
+**	Basic Functions
+*/
+
+int		open_fd(char *filename);
 
 #endif

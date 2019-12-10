@@ -3,7 +3,9 @@
 		"fcntl.h": "c",
 		"ft_ssl.h": "c",
 		"libft.h": "c",
-		"libft_macros.h": "c"
+		"libft_macros.h": "c",
+		"ft_ssl_include.h": "c",
+		"ft_ssl_structs.h": "c"
 	},
 	"cmake.configureOnOpen": false
 }

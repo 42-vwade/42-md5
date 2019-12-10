@@ -63,8 +63,13 @@ struct	s_md5
 	signed int		ret;
 	t_digest		digest;
 	t_object		*object;
+	t_option		option;
 };
 
-t_bool	md5_configure(int n, char **v, t_config *config);
+t_bool		md5_configure(int n, char **v, t_config *config);
+t_bool		md5_args(int n, char **v, t_md5 *md5);
+unsigned	m_ff(f, a, mode);
+unsigned	m_rr(value, shift);
+void		m_rotate(unsigned *a, unsigned *b, unsigned *c, unsigned *d);
 
 #endif

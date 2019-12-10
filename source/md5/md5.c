@@ -6,7 +6,7 @@
 /*   By: viwade <viwade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 09:14:33 by viwade            #+#    #+#             */
-/*   Updated: 2019/12/04 16:50:06 by viwade           ###   ########.fr       */
+/*   Updated: 2019/12/09 16:33:45 by viwade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,17 +49,17 @@ static void
 	md5->d = md5->result[3];
 	while (md5->i < 64 || (md5->i = 0))
 	{
-		if (md5->i < 16 && ((md5->f = F(md5->b, md5->c, md5->d)) || 1))
+		if (ff(md5->i, &md5->f, (int[]){md5->b, md5->c, md5->d}, 70) < 16)
 			md5->g = md5->i;
-		else if (md5->i < 32 && ((md5->f = G(md5->b, md5->c, md5->d)) || 1))
+		else if (ff(md5->i, &md5->f, (int[]){md5->b, md5->c, md5->d}, 71) < 32)
 			md5->g = (5 * md5->i + 1) % 16;
-		else if (md5->i < 48 && ((md5->f = H(md5->b, md5->c, md5->d)) || 1))
+		else if (ff(md5->i, &md5->f, (int[]){md5->b, md5->c, md5->d}, 72) < 48)
 			md5->g = (3 * md5->i + 5) % 16;
-		else if (md5->i < 64 && ((md5->f = I(md5->b, md5->c, md5->d)) || 1))
+		else if (ff(md5->i, &md5->f, (int[]){md5->b, md5->c, md5->d}, 73) < 64)
 			md5->g = (7 * md5->i) % 16;
-		md5->f = md5->b + R(md5->a + md5->f + g_md5_key[md5->i] +
+		md5->f = md5->b + m_rr(md5->a + md5->f + g_md5_key[md5->i] +
 		md5->message[md5->g], g_md5_shift[((md5->i / 16) * 4) + (md5->i % 4)]);
-		S(md5->a, md5->b, md5->c, md5->d);
+		m_rotate(&md5->a, &md5->b, &md5->c, &md5->d);
 		md5->b = md5->f;
 		md5->i++;
 	}
@@ -95,8 +95,10 @@ static void
 static void
 	md5_readin(t_md5 *md5)
 {
-	while ((md5->nb = read(md5->object->fd, md5->message, 64)) > -1)
+	while ((md5->nb = read(md5->object->fd, md5->message, 64)) != -1)
 	{
+		if (md5->option.p)
+			write(1, md5->message, md5->nb);
 		md5->length += md5->nb * 8;
 		md5_message(md5);
 		if (!md5->nb)
@@ -156,6 +158,7 @@ static void
 int
 	md5(t_config *cfg)
 {
+	size_t	n = 1;
 	t_md5	md5;
 	t_node	*node;
 
@@ -163,6 +166,10 @@ int
 		ft_error("ft_ssl: md5: Invalid parameters. Exiting.");//*/
 	ft_bzero(&md5, sizeof(md5));
 	ft_memcpy(md5.result, (int[]){A, B, C, D}, sizeof(int[4]));
+	md5.object;
+	md5_args(cfg->argc + 2, cfg->argv + 2, &md5);
+	while (++n < cfg->argc)
+		;
 /*	md5.result[0] = A;
 	md5.result[1] = B;
 	md5.result[2] = C;
@@ -174,6 +181,7 @@ int
 		// test.fd = 0;
 		md5.object = &cfg->obj;
 		md5_string(&md5);
+		md5_readin(&md5);
 		md5_print(&md5);
 		return (md5.ret);	}//*/
 /*	node = cfg->queue.next;
