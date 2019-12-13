@@ -26,6 +26,11 @@
 # define S(a,b,c,d)	{a = d; d = c; c = b;}
 # define HEXA		"0123456789abcdef"
 
+enum e_mode{
+	md5_str = 1,
+	md5_fd = 2
+};
+
 typedef union u_digest	t_digest;
 typedef struct s_md5	t_md5;
 
@@ -62,7 +67,7 @@ struct	s_md5
 	unsigned int	result[4];
 	signed int		ret;
 	t_digest		digest;
-	t_object		*object;
+	t_object		object;
 	t_option		option;
 };
 

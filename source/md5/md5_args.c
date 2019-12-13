@@ -6,7 +6,7 @@
 /*   By: viwade <viwade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/04 17:48:38 by viwade            #+#    #+#             */
-/*   Updated: 2019/12/09 16:31:10 by viwade           ###   ########.fr       */
+/*   Updated: 2019/12/13 04:09:12 by viwade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,19 +37,23 @@ static t_bool
 }
 
 t_bool
-	md5_args(int n, char **v, t_md5 *md5)
+	md5_args(int n, char **v, t_md5 *m)
 {
 	static int		c;
 	static t_option option;
 
-	while (++c < n)
-	{
-		if (v[c][0] == '-' && parse(v[c], &option))
-			if (option.s)
-				;
-		else
-			break ;
-	}
+	if (!n)
+		return md5(&(t_config){
+			0, 0, ft_basename(v[0]), (char[32]){}, 0, 0, 0, 0, 0, md5});
+	else
+		while (++c < n)
+		{
+			if (v[c][0] == '-' && parse(v[c], &option))
+				if (option.s)
+					;
+			else
+				break ;
+		}
 }
 
 /*

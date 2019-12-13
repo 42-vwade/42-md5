@@ -1,28 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ssl_mode.c                                         :+:      :+:    :+:   */
+/*   md5_stdin.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: viwade <viwade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/07 08:10:54 by viwade            #+#    #+#             */
-/*   Updated: 2019/12/13 13:07:50 by viwade           ###   ########.fr       */
+/*   Created: 2019/12/13 04:19:53 by viwade            #+#    #+#             */
+/*   Updated: 2019/12/13 05:10:11 by viwade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_ssl.h"
-#include "ft_ssl_global.h"
+#include "md5.h"
 
-void	ssl_mode(t_config *config)
-{
-	int		i;
-
-	i = 0;
-	while (++i < MODE_SELECT || (i = UNDEFINED))
-		if (ft_strequ(config->verb, g_jumptable[i].mode))
-			break ;
-	config->mode = g_jumptable[i].func;
-	if (!config->mode && (config->error = mode_undefined || 1))
-		ssl_error(config);
-	ft_printf("%s: selected mode: %s\n", config->prgnm, g_jumptable[i].mode);
-}
+t_bool	md5_stdin()
+t_bool	md5_input
+t_bool	md5_input

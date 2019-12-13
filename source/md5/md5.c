@@ -6,7 +6,7 @@
 /*   By: viwade <viwade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 09:14:33 by viwade            #+#    #+#             */
-/*   Updated: 2019/12/09 16:33:45 by viwade           ###   ########.fr       */
+/*   Updated: 2019/12/13 08:38:32 by viwade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,17 @@ static void
 	ft_printf("MD5 (\"%s\") = %s\n", md5->object->data, hex);
 }
 
+static void
+	md5_input(char *string, int fd, t_md5 *md5)
+{
+	md5->object = (t_object){fd, 0, 0, 0, 0, 0};
+	if (string && (md5->object.data = string))
+		md5_string(md5);
+	else
+		md5_readin(md5);
+}
+
+
 int
 	md5(t_config *cfg)
 {
@@ -162,12 +173,12 @@ int
 	t_md5	md5;
 	t_node	*node;
 
-/*	if (!md5_configure(cfg->argc, cfg->argv, cfg))
-		ft_error("ft_ssl: md5: Invalid parameters. Exiting.");//*/
 	ft_bzero(&md5, sizeof(md5));
 	ft_memcpy(md5.result, (int[]){A, B, C, D}, sizeof(int[4]));
-	md5.object;
-	md5_args(cfg->argc + 2, cfg->argv + 2, &md5);
+	if (!(cfg->argc - 2))
+		md5_input(0, 0, &md5);
+	while (md5_args(cfg->argc + 2, cfg->argv + 2, &md5))
+		;
 	while (++n < cfg->argc)
 		;
 /*	md5.result[0] = A;
@@ -179,7 +190,7 @@ int
 		// ft_bzero(&test, sizeof(test));
 		// test.data = "";
 		// test.fd = 0;
-		md5.object = &cfg->obj;
+		md5.object = cfg->obj;
 		md5_string(&md5);
 		md5_readin(&md5);
 		md5_print(&md5);
