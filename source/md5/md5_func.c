@@ -6,7 +6,7 @@
 /*   By: viwade <viwade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/04 17:55:59 by viwade            #+#    #+#             */
-/*   Updated: 2019/12/06 01:59:41 by viwade           ###   ########.fr       */
+/*   Updated: 2019/12/14 02:05:35 by viwade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ unsigned
 	ff(i, f, a, mode)
 	unsigned	i;
 	unsigned	*f;
-	unsigned	a[3];
-	char		mode;
+	int			a[3];
+	int			mode;
 {
 	if (ft_tolower(mode) == 'f')
 		f[0] = (a[0] & a[1]) | (~a[0] & a[2]);

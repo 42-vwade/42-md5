@@ -6,7 +6,7 @@
 /*   By: viwade <viwade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 09:14:33 by viwade            #+#    #+#             */
-/*   Updated: 2019/12/13 08:38:32 by viwade           ###   ########.fr       */
+/*   Updated: 2019/12/14 02:01:11 by viwade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ unsigned
 	0xf7537e82, 0xbd3af235, 0x2ad7d2bb, 0xeb86d391
 };
 
-static void
+void
 	md5_algorithm(t_md5 *md5)
 {
 	md5->a = md5->result[0];
@@ -69,141 +69,32 @@ static void
 	md5->result[3] += md5->d;
 }
 
-static void
-	md5_message(t_md5 *md5)
-{
-	if (md5->nb < 56)
-	{	// if fewer than 448 bits have been read
-		((char *)md5->message)[md5->nb] = 0x80;
-		ft_memset(&((char *)md5->message)[md5->nb + 1], 0, 56 - md5->nb);
-		ft_memcpy(&((char *)md5->message)[56], &md5->length, 8);
-		md5_algorithm(md5);
-	}
-	else if (md5->nb < 64)
-	{	// if fewer than 512 bits have been read, & more than 448
-		((char *)md5->message)[md5->nb] = 0x80;
-		ft_memset(&((char *)md5->message)[md5->nb + 1], 0, 64 - (md5->nb + 1));
-		md5_algorithm(md5);
-		ft_memset(&((char *)md5->message)[0], 0, 56);
-		ft_memcpy(&((char *)md5->message)[56], &md5->length, 8);
-		md5_algorithm(md5);
-	}
-	else
-		md5_algorithm(md5);
-}
-
-static void
-	md5_readin(t_md5 *md5)
-{
-	while ((md5->nb = read(md5->object->fd, md5->message, 64)) != -1)
-	{
-		if (md5->option.p)
-			write(1, md5->message, md5->nb);
-		md5->length += md5->nb * 8;
-		md5_message(md5);
-		if (!md5->nb)
-			break;
-	}
-	if (md5->nb == -1)
-		ft_error("ft_ssl: MD5: read error");
-}
-
-static void
-	md5_string(t_md5 *md5)
-{
-	md5->nb = ft_strlen(md5->object->data);
-	md5->length = md5->nb * 8;
-	if (!(md5->len = md5->nb))
-		md5_message(md5);
-	while (md5->nb)
-	{
-		ft_memcpy(md5->message, &md5->object->data[md5->object->offset], md5->nb
-			< 64 ? md5->nb : 64);
-		md5->object->offset += md5->nb < 64 ? md5->nb : 64;
-		md5_message(md5);
-		if ((md5->nb = md5->len - md5->object->offset) == 64)
-		{
-			ft_memcpy(
-				md5->message, &md5->object->data[md5->object->offset], 64);
-			md5->object->offset += 64;
-			md5_message(md5);
-			md5->nb -= 64;
-			md5_message(md5);
-		}
-	}
-}
-
-static void
-	md5_print(t_md5 *md5)
-{
-	int		i = 0;
-	char	hex[32 + 1];
-
-	ft_memset(hex, '-', sizeof(hex));
-	//print_memory(md5->result, sizeof(md5->result));
-	/*return;//*/
-	while (i < 32)
-	{
-		hex[i] = HEXA[0xf & (md5->result[i / 8] >> (4 * ((i + 1) % 8)))];
-		hex[i + 1] = HEXA[0xf & (md5->result[i / 8] >> (4 * (i % 8)))];
-		// ft_printf("md5_print[%i]: %hhi | %c\t",	i,
-		// 	0xf & (md5->result[i / 8] >> (4 * (i % 8))), hex[i]);
-		i += 2;
-		//(!(i % 2) || 1) && (write(1, hex, i) && write(1, "\n", 1));
-	}
-	hex[32]	= 0;
-	ft_printf("MD5 (\"%s\") = %s\n", md5->object->data, hex);
-}
-
-static void
-	md5_input(char *string, int fd, t_md5 *md5)
-{
-	md5->object = (t_object){fd, 0, 0, 0, 0, 0};
-	if (string && (md5->object.data = string))
-		md5_string(md5);
-	else
-		md5_readin(md5);
-}
-
-
 int
 	md5(t_config *cfg)
 {
-	size_t	n = 1;
 	t_md5	md5;
-	t_node	*node;
+	size_t	n = 0;
 
 	ft_bzero(&md5, sizeof(md5));
 	ft_memcpy(md5.result, (int[]){A, B, C, D}, sizeof(int[4]));
-	if (!(cfg->argc - 2))
+	if (!(cfg->argc - 2) || (md5_args(cfg->argc, cfg->argv, &md5) && 0))
 		md5_input(0, 0, &md5);
-	while (md5_args(cfg->argc + 2, cfg->argv + 2, &md5))
-		;
-	while (++n < cfg->argc)
-		;
-/*	md5.result[0] = A;
-	md5.result[1] = B;
-	md5.result[2] = C;
-	md5.result[3] = D;//*/
-	{	/*	TEST //	*/
-		// t_object test;
-		// ft_bzero(&test, sizeof(test));
-		// test.data = "";
-		// test.fd = 0;
-		md5.object = cfg->obj;
-		md5_string(&md5);
-		md5_readin(&md5);
-		md5_print(&md5);
-		return (md5.ret);	}//*/
-/*	node = cfg->queue.next;
-	while (node)
+	else
 	{
-		md5.object = node->content;
-		if (md5.object->type == file && ((md5.fd = md5.object->fd) || 1))
-			md5_readin(&md5);
-		else if (md5.object->type == string)
-			md5_string(&md5);
-		node = node->next;
-	}//*/
+		if (md5.option.p)
+			md5_input(md5.option.p = 0, 0, &md5);
+		while (n < cfg->argc - 2 && !(md5.object.data = 0))
+			if (!('-' == *cfg->argv[n - 2]) ||
+					((md5.object.data = ft_strchr(cfg->argv[n - 2], 's')) && 0))
+				break ;
+			else if (md5.object.data && md5.object.data[1] && (n += 1))
+				md5_input(0, &md5.object.data[1], &md5);
+			else if ((md5.object.data && (n + 1 < cfg->argc - 2)) || (n += 1))
+				md5_input(0, cfg->argv[n++ - 1], &md5);
+			else
+				md5_input(open_fd(cfg->argv[n - 1]), cfg->argv[n - 1], &md5);
+		while (n++ < cfg->argc - 2)
+			md5_input(open_fd(cfg->argv[n - 3]), cfg->argv[n - 3], &md5);
+	}
 	return (md5.ret);
 }

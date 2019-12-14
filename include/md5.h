@@ -17,13 +17,13 @@
 # define B	0xefcdab89
 # define C	0x98BADCFE
 # define D	0x10325476
-# define F(b,c,d)	((b & c) | (~b & d))
-# define G(b,c,d)	((d & b) | (~d & c))
-//# define G(b,c,d)	(((b) & (c)) | ((b) & ~(d)))
-# define H(b,c,d)	((b ^ c ^ d))
-# define I(b,c,d)	((c ^ (b |~ d)))
-# define R(x,n)		(((x) << (n)) | ((x) >> (32 - (n))))
-# define S(a,b,c,d)	{a = d; d = c; c = b;}
+// # define F(b,c,d)	((b & c) | (~b & d))
+// # define G(b,c,d)	((d & b) | (~d & c))
+// //# define G(b,c,d)	(((b) & (c)) | ((b) & ~(d)))
+// # define H(b,c,d)	((b ^ c ^ d))
+// # define I(b,c,d)	((c ^ (b |~ d)))
+// # define R(x,n)		(((x) << (n)) | ((x) >> (32 - (n))))
+// # define S(a,b,c,d)	{a = d; d = c; c = b;}
 # define HEXA		"0123456789abcdef"
 
 enum e_mode{
@@ -71,10 +71,11 @@ struct	s_md5
 	t_option		option;
 };
 
-t_bool		md5_configure(int n, char **v, t_config *config);
+void		md5_algorithm(t_md5 *md5_object);
+void		md5_input(int fd, char *string, t_md5 *md5);
 t_bool		md5_args(int n, char **v, t_md5 *md5);
-unsigned	m_ff(f, a, mode);
-unsigned	m_rr(value, shift);
+unsigned	ff(unsigned i, unsigned *f, int a[3], int mode);
+unsigned	m_rr(unsigned value, unsigned shift);
 void		m_rotate(unsigned *a, unsigned *b, unsigned *c, unsigned *d);
 
 #endif
