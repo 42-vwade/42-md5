@@ -35,7 +35,10 @@ all: $(NAME)
 #	@gcc -g $(INCLUDE) $(LIBFT) $^
 
 #test: test.c source/md5/md5.c $(LFILES)
-test: test.c $(CFILES) $(LFILES)
+test: test.c $(filter-out source/main.c, $(CFILES)) $(LFILES)
+	@gcc -o x.test -g $(INCLUDE) $^
+
+main: $(filter-out test.c, $(CFILES)) $(LFILES)
 	@gcc -o x.test -g $(INCLUDE) $^
 
 $(NAME): $(LIBFT) $(OBJECTS)

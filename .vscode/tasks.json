@@ -10,6 +10,14 @@
         },
         {
             "type": "shell",
+            "label": "Make: Main Configuration",
+            "command": "make",
+            "args": [
+                "main"
+			],
+        },
+        {
+            "type": "shell",
             "label": "Remove Test",
             "command": "rm",
             "args": [

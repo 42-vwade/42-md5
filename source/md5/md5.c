@@ -6,13 +6,13 @@
 /*   By: viwade <viwade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 09:14:33 by viwade            #+#    #+#             */
-/*   Updated: 2019/12/14 02:01:11 by viwade           ###   ########.fr       */
+/*   Updated: 2019/12/19 14:54:04 by viwade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "md5.h"
 
-unsigned
+const unsigned
 	g_md5_shift[16] = {
 	7, 12, 17, 22,
 	5, 9, 14, 20,
@@ -20,7 +20,7 @@ unsigned
 	6, 10, 15, 21
 };
 
-unsigned
+const unsigned
 	g_md5_key[64] = {
 	0xd76aa478, 0xe8c7b756, 0x242070db, 0xc1bdceee,
 	0xf57c0faf, 0x4787c62a, 0xa8304613, 0xfd469501,
@@ -73,28 +73,28 @@ int
 	md5(t_config *cfg)
 {
 	t_md5	md5;
-	size_t	n = 0;
+	size_t	n = 2;
 
 	ft_bzero(&md5, sizeof(md5));
 	ft_memcpy(md5.result, (int[]){A, B, C, D}, sizeof(int[4]));
-	if (!(cfg->argc - 2) || (md5_args(cfg->argc, cfg->argv, &md5) && 0))
+	if (!md5_args(cfg->argc - 2, &cfg->argv[2], &md5) && 0)
 		md5_input(0, 0, &md5);
 	else
 	{
 		if (md5.option.p)
 			md5_input(md5.option.p = 0, 0, &md5);
-		while (n < cfg->argc - 2 && !(md5.object.data = 0))
-			if (!('-' == *cfg->argv[n - 2]) ||
-					((md5.object.data = ft_strchr(cfg->argv[n - 2], 's')) && 0))
+		while (n < cfg->argc && !(md5.object.data = 0))
+			if (!('-' == *cfg->argv[n]) ||
+					((md5.object.data = ft_strchr(cfg->argv[n], 's')) && 0))
 				break ;
-			else if (md5.object.data && md5.object.data[1] && (n += 1))
-				md5_input(0, &md5.object.data[1], &md5);
-			else if ((md5.object.data && (n + 1 < cfg->argc - 2)) || (n += 1))
-				md5_input(0, cfg->argv[n++ - 1], &md5);
+			else if (md5.object.data && md5.object.data[1] && ((n += 1) || 1))
+				md5_input(-1, &md5.object.data[1], &md5);
+			else if ((md5.object.data && n + 1 < cfg->argc) && ((n += 1) || 1))
+				md5_input(-1, cfg->argv[n++], &md5);
 			else
-				md5_input(open_fd(cfg->argv[n - 1]), cfg->argv[n - 1], &md5);
-		while (n++ < cfg->argc - 2)
-			md5_input(open_fd(cfg->argv[n - 3]), cfg->argv[n - 3], &md5);
+				md5_input(0, cfg->argv[n++], &md5);
+		while (++n < cfg->argc)
+			md5_input(open_fd(cfg->argv[n]), cfg->argv[n], &md5);
 	}
 	return (md5.ret);
 }

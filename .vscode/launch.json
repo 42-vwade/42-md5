@@ -10,7 +10,7 @@
 			,	"request": "launch"
 			,	"program": "/bin/ls"
 			,	"cwd": "${workspaceFolder}"
-			,	"preLaunchTask": "Make: Test Configuration"
+			,	"preLaunchTask": "Make: Main Configuration"
 		},
 		{
 			"name": "Debug: Test"
@@ -31,7 +31,7 @@
 			,	"type": "cppdbg"
 			,	"request": "launch"
 			,	"program": "${workspaceFolder}/x.test"
-			,	"args": []
+			,	"args": ["md5", "-s", "abc"]
 			,	"stopAtEntry": false
 			,	"cwd": "${workspaceFolder}"
 			,	"environment": []

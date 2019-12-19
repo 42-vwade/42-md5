@@ -62,11 +62,9 @@ struct	s_md5
 	unsigned long	i;
 	unsigned long	len;
 	unsigned long	length;
-	unsigned char	block[64];
 	unsigned int	message[16];
 	unsigned int	result[4];
 	signed int		ret;
-	t_digest		digest;
 	t_object		object;
 	t_option		option;
 };

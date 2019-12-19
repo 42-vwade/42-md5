@@ -6,7 +6,7 @@
 /*   By: viwade <viwade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 11:50:20 by viwade            #+#    #+#             */
-/*   Updated: 2019/12/13 04:05:50 by viwade           ###   ########.fr       */
+/*   Updated: 2019/12/19 14:45:13 by viwade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ struct	s_option
 	unsigned char	m:	1;
 	unsigned char	n:	1;
 	unsigned char	o:	1;
-	unsigned char	p:	1;
+	unsigned char	p;
 	unsigned char	q:	1;
 	unsigned char	r:	1;
 	unsigned char	s:	1;
@@ -118,8 +118,6 @@ struct	s_config
 	int			error;
 	int			errno;
 	unsigned	c;
-	t_option	option;
-	t_object	obj;
 	int			(*mode)(t_config *);
 };
 

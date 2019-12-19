@@ -6,7 +6,7 @@
 /*   By: viwade <viwade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/13 04:19:53 by viwade            #+#    #+#             */
-/*   Updated: 2019/12/14 02:01:21 by viwade           ###   ########.fr       */
+/*   Updated: 2019/12/19 14:58:51 by viwade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,9 +102,16 @@ static void
 void
 	md5_input(int fd, char *string, t_md5 *md5)
 {
-	md5->object = (t_object){fd, string, 0, 0, 0, 0};
-	if (string && !fd)
-		md5_string(md5);
+	md5->object = (t_object){
+		.fd = !fd && string ? open_fd(string) : 0,
+		.data = string,
+		.length = fd != -1 ? ft_strlen(string) : 0,
+		.offset = 0,
+		.type = 0,
+		.free = 0
+	};
+	if (string && fd == -1)
+ring(md5);
 	else
 		md5_readin(md5);
 }
