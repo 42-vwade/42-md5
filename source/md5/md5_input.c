@@ -6,7 +6,7 @@
 /*   By: viwade <viwade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/13 04:19:53 by viwade            #+#    #+#             */
-/*   Updated: 2019/12/19 15:09:18 by viwade           ###   ########.fr       */
+/*   Updated: 2019/12/19 15:50:54 by viwade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,15 @@ static void
 static void
 	md5_readin(t_md5 *md5)
 {
-	while ((md5->nb = read(md5->object.fd, md5->message, 64)) != -1)
+	while ((md5->nb = read(md5->object.fd, md5->message, 64)) > -1)
 	{
 		if (md5->option.p)
 			write(1, md5->message, md5->nb);
+		if (md5->nb < 64)
+			ft_bzero(&((char*)md5->message)[md5->nb], 64 - md5->nb);
 		md5->length += md5->nb * 8;
 		md5_message(md5);
-		if (!md5->nb)
+		if (md5->nb < 64)
 			break;
 	}
 	if (md5->nb == -1)
