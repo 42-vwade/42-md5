@@ -31,7 +31,7 @@
 			,	"type": "cppdbg"
 			,	"request": "launch"
 			,	"program": "${workspaceFolder}/x.test"
-			,	"args": ["md5", "-s", "abc"]
+			,	"args": ["md5", "123", "abc"]
 			,	"stopAtEntry": false
 			,	"cwd": "${workspaceFolder}"
 			,	"environment": []

@@ -1,0 +1,25 @@
+name: C/Build
+
+on: [push]
+
+jobs:
+  build_lib:
+    name: libft
+    runs-on: macos-latest
+    steps:
+    -	uses: actions/checkout@v1
+    -	name: making libraries
+      run: make lib/libft/libft.a
+  build_ft_ssl:
+    name: ft_ssl
+    runs-on: macos-latest
+    steps:
+    -
+    - name: configure
+      run: ./configure
+    - name: make
+      run: make
+    - name: make check
+      run: make check
+    - name: make distcheck
+      run: make distcheck

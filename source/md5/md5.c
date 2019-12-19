@@ -6,7 +6,7 @@
 /*   By: viwade <viwade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 09:14:33 by viwade            #+#    #+#             */
-/*   Updated: 2019/12/19 14:54:04 by viwade           ###   ########.fr       */
+/*   Updated: 2019/12/19 15:28:28 by viwade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,9 +92,9 @@ int
 			else if ((md5.object.data && n + 1 < cfg->argc) && ((n += 1) || 1))
 				md5_input(-1, cfg->argv[n++], &md5);
 			else
-				md5_input(0, cfg->argv[n++], &md5);
-		while (++n < cfg->argc)
-			md5_input(open_fd(cfg->argv[n]), cfg->argv[n], &md5);
+				break ; //md5_input(0, cfg->argv[n++], &md5);
+		while (n < cfg->argc)
+			md5_input(0, cfg->argv[n++], &md5);
 	}
 	return (md5.ret);
 }

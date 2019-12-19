@@ -6,7 +6,7 @@
 /*   By: viwade <viwade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/13 04:19:53 by viwade            #+#    #+#             */
-/*   Updated: 2019/12/19 14:58:51 by viwade           ###   ########.fr       */
+/*   Updated: 2019/12/19 15:09:18 by viwade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ static void
 			md5_message(md5);
 		}
 	}
+	md5_print(md5);
 }
 
 void
@@ -111,7 +112,7 @@ void
 		.free = 0
 	};
 	if (string && fd == -1)
-ring(md5);
+		md5_string(md5);
 	else
 		md5_readin(md5);
 }
