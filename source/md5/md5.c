@@ -6,7 +6,7 @@
 /*   By: viwade <viwade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 09:14:33 by viwade            #+#    #+#             */
-/*   Updated: 2019/12/19 15:28:28 by viwade           ###   ########.fr       */
+/*   Updated: 2019/12/19 16:57:47 by viwade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,9 @@ int
 	md5(t_config *cfg)
 {
 	t_md5	md5;
-	size_t	n = 2;
+	int		n = 2;
 
 	ft_bzero(&md5, sizeof(md5));
-	ft_memcpy(md5.result, (int[]){A, B, C, D}, sizeof(int[4]));
 	if (!md5_args(cfg->argc - 2, &cfg->argv[2], &md5) && 0)
 		md5_input(0, 0, &md5);
 	else

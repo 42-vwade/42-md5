@@ -20,7 +20,7 @@ FLAGS		:=	$(FLAGS) -Werror
 
 ####	DEBUGGING		########################################################
 
-FLAGS		:=	$(INCLUDE) -Wall -Wextra -g
+DBG_FLAGS	:=	$(INCLUDE) -g -Wall -Wextra -Werror
 
 ####	AUTO SETTING	########################################################
 
@@ -41,8 +41,12 @@ test: test.c $(filter-out source/main.c, $(CFILES)) $(LFILES)
 main: $(filter-out test.c, $(CFILES)) $(LFILES)
 	@gcc -o x.test -g $(INCLUDE) $^
 
+#$(NAME): $(filter-out test.c, $(CFILES)) $(LFILES)
+#	@gcc -o $@ $(FLAGS) $^
+
+#	Main task	#
 $(NAME): $(LIBFT) $(OBJECTS)
-	@gcc $(FLAGS) -o $@ -L $(<D) -lft $(OBJECTS)
+	@gcc -o $@ $(FLAGS) -L $(<D) -lft $(OBJECTS)
 
 $(OBJECTS): $(CFILES) | $(ODIR)
 	@cd $(@D); gcc -c $(FLAGS) $(abspath $^)
@@ -59,7 +63,7 @@ clean:
 		make clean -C $(dir $(LIBFT))
 
 fclean:
-	@rm -rf $(BUILDDIR);\
+	@rm -rf $(NAME) $(BUILDDIR);\
 		make fclean -C $(dir $(LIBFT))
 
 re: fclean all

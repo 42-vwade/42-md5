@@ -17,3 +17,5 @@ libft/.git
 *.swp
 *.tmp
 123
+ft_ssl
+ft_ssl.*
