@@ -6,7 +6,7 @@
 /*   By: viwade <viwade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/13 04:19:53 by viwade            #+#    #+#             */
-/*   Updated: 2019/12/22 20:38:44 by viwade           ###   ########.fr       */
+/*   Updated: 2019/12/23 22:53:09 by viwade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static void
 	md5_message(t_md5 *md5)
 {
+	md5->i = 0;
 	if (md5->nb < 56)
 	{
 		((char *)md5->message)[md5->nb] = 0x80;
@@ -35,7 +36,7 @@ static void
 		md5_algorithm(md5);
 }
 
-static void
+void
 	md5_print(t_md5 *md5)
 {
 	int		i = 0;
@@ -80,7 +81,7 @@ static void
 		md5_print(md5);
 }
 
-static void
+void
 	md5_string(t_md5 *md5)
 {
 	md5->nb = ft_strlen(md5->object.data);

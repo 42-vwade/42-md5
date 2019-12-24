@@ -6,7 +6,7 @@
 /*   By: viwade <viwade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/03 20:55:41 by viwade            #+#    #+#             */
-/*   Updated: 2019/09/26 14:43:20 by viwade           ###   ########.fr       */
+/*   Updated: 2019/12/23 23:10:12 by viwade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,18 +25,40 @@
 #define MODE_2(s,x,a,b,f,f2) if(x==FREE_RIGHT)	APPEND_2(s,a,b,f,f2)
 #define MODE_3(s,x,a,b,f,f2) if(x==FREE_ALL)	APPEND_3(s,a,b,f,f2)
 
-char	*ft_append(const char *s1, const char *s2, int mode)
+static void
+	match(char **string, int mode, const char *s1, const char *s2)
+{
+	if (mode == FREE_NONE)
+		string[0] = ft_strjoin(s1, s2);
+	else if (mode == FREE_LEFT)
+	{
+		string[0] = ft_strjoin(s1, s2);
+		ft_memdel((void**)&s1);
+	}
+	else if (mode == FREE_RIGHT)
+	{
+		string[0] = ft_strjoin(s1, s2);
+		ft_memdel((void**)&s1);
+	}
+	else if (mode == FREE_ALL)
+	{
+		string[0] = ft_strjoin(s1, s2);
+		ft_memdel((void**)&s1);
+		ft_memdel((void**)&s2);
+	}
+}
+
+char
+	*ft_append(const char *s1, const char *s2, int mode)
 {
 	void	*string;
 
-	if ((unsigned)mode > FREE_ALL)
-		ft_error("ft_append: no mode specified");
-	string = 0;
-	MATCH(!s1 && (mode == 1 || mode == 3), mode -= 1);
-	MATCH(!s2 && (mode == 2 || mode == 3), mode = mode == 3 ? 1 : 0);
-	MODE_0(string, mode, s1, s2, ft_strjoin, ft_memdel);
-	MODE_1(string, mode, s1, s2, ft_strjoin, ft_memdel);
-	MODE_2(string, mode, s1, s2, ft_strjoin, ft_memdel);
-	MODE_3(string, mode, s1, s2, ft_strjoin, ft_memdel);
+	if ((string = (unsigned)mode > FREE_ALL))
+		ft_error("ft_append: incorrect <mode> specified");
+	if (!s1 && (mode == 1 || mode == 3))
+		mode -= 1;
+	else if (!s2 && (mode == 2 || mode == 3))
+		mode = mode == 3 ? 1 : 0;
+	match(&string, mode, s1, s2);
 	return (string);
 }

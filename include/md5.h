@@ -33,6 +33,7 @@ enum e_mode{
 
 typedef union u_digest	t_digest;
 typedef struct s_md5	t_md5;
+typedef struct s_mvars	t_mvars;
 
 union	u_128bit
 {
@@ -47,6 +48,13 @@ union	u_digest
 	char			b[64];
 	int				w[16];
 	union u_128bit	d[4];
+};
+
+struct	s_mvars
+{
+	int		n;
+	int		j;
+	char	*t;
 };
 
 struct	s_md5
@@ -71,6 +79,9 @@ struct	s_md5
 
 void		md5_algorithm(t_md5 *md5_object);
 void		md5_input(int fd, char *string, t_md5 *md5);
+void		md5_stdin(t_md5 *md5);
+void		md5_string(t_md5 *md5);
+void		md5_print(t_md5 *md5);
 t_bool		md5_args(int n, char **v, t_md5 *md5);
 unsigned	ff(unsigned i, unsigned *f, int a[3], int mode);
 unsigned	m_rr(unsigned value, unsigned shift);

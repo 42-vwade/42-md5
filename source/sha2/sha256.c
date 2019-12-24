@@ -6,16 +6,14 @@
 /*   By: viwade <viwade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/12 16:07:04 by viwade            #+#    #+#             */
-/*   Updated: 2019/11/12 16:08:26 by viwade           ###   ########.fr       */
+/*   Updated: 2019/12/23 20:35:33 by viwade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sha256.h"
 
 int
-	sha256(t_config *config)
+	sha256(t_config *input)
 {
-	if (config)
-		;
-	return (0);
+	return (!!input);
 }

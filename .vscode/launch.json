@@ -30,30 +30,26 @@
 			"name": "Run: Test"
 			,	"type": "cppdbg"
 			,	"request": "launch"
-			,	"program": "${workspaceFolder}/x.test"
-			,	"args": ["md5", "-s", "abc", "123"]
+			,	"program": "${workspaceFolder}/ft_ssl"
+			,	"args": ["md5"]
 			,	"stopAtEntry": false
 			,	"cwd": "${workspaceFolder}"
 			,	"environment": []
-			,	"externalConsole": false
+			,	"externalConsole": true
 			,	"MIMode": "lldb"
 		},
 		{
 			"name": "Arg: Test"
 			,	"type": "cppdbg"
 			,	"request": "launch"
-			,	"program": "${workspaceFolder}/x.test"
+			,	"program": "${workspaceFolder}/ft_ssl"
 			,	"args": [
-				"abc",
-				"ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
-				"abcefghijklmnoprqstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234",
-				"abcefghijklmnoprqstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234abcefghijklmnoprqstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234",
-				"900150983cd24fb0d6963f7d28e17f72900150983cd24fb0d6963f7d28e17f72900150983cd24fb0d6963f7d28e17f72900150983cd24fb0d6963f7d28e17f72"
+				"md5", "<", "123"
 			]
-			,	"stopAtEntry": false
+			,	"stopAtEntry": true
 			,	"cwd": "${workspaceFolder}"
 			,	"environment": []
-			,	"externalConsole": false
+			,	"externalConsole": true
 			,	"MIMode": "lldb"
 		}
 	]
