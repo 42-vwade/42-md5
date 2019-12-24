@@ -5,7 +5,8 @@
 		"libft.h": "c",
 		"libft_macros.h": "c",
 		"ft_ssl_include.h": "c",
-		"ft_ssl_structs.h": "c"
+		"ft_ssl_structs.h": "c",
+		"types.h": "c"
 	},
 	"cmake.configureOnOpen": false
 }

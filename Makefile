@@ -20,7 +20,7 @@ FLAGS		:=	$(FLAGS) -Werror
 
 ####	DEBUGGING		########################################################
 
-DBG_FLAGS	:=	$(INCLUDE) -g -Wall -Wextra -Werror
+FLAGS	:=	$(INCLUDE) -g -Wall -Wextra -Werror
 
 ####	AUTO SETTING	########################################################
 
@@ -39,7 +39,7 @@ test: test.c $(filter-out source/main.c, $(CFILES)) $(LFILES)
 	@gcc -o x.test -g $(INCLUDE) $^
 
 main: $(filter-out test.c, $(CFILES)) $(LFILES)
-	@gcc -o x.test -g $(INCLUDE) $^
+	@gcc -o $(NAME) $(FLAGS) $^
 
 #$(NAME): $(filter-out test.c, $(CFILES)) $(LFILES)
 #	@gcc -o $@ $(FLAGS) $^

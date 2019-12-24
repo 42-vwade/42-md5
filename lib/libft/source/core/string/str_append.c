@@ -6,7 +6,7 @@
 /*   By: viwade <viwade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/03 20:55:41 by viwade            #+#    #+#             */
-/*   Updated: 2019/12/23 23:10:12 by viwade           ###   ########.fr       */
+/*   Updated: 2019/12/24 00:04:10 by viwade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 #define MODE_3(s,x,a,b,f,f2) if(x==FREE_ALL)	APPEND_3(s,a,b,f,f2)
 
 static void
-	match(char **string, int mode, const char *s1, const char *s2)
+	match(void **string, int mode, const char *s1, const char *s2)
 {
 	if (mode == FREE_NONE)
 		string[0] = ft_strjoin(s1, s2);
@@ -53,7 +53,7 @@ char
 {
 	void	*string;
 
-	if ((string = (unsigned)mode > FREE_ALL))
+	if ((string = (void *)(long)((unsigned)mode > FREE_ALL)))
 		ft_error("ft_append: incorrect <mode> specified");
 	if (!s1 && (mode == 1 || mode == 3))
 		mode -= 1;

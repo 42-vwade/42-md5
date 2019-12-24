@@ -6,7 +6,7 @@
 /*   By: viwade <viwade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 09:14:33 by viwade            #+#    #+#             */
-/*   Updated: 2019/12/23 23:21:01 by viwade           ###   ########.fr       */
+/*   Updated: 2019/12/24 03:34:04 by viwade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,29 @@ void
 	md5->result[3] += md5->d;
 }
 
+static t_md5
+	md5_arg(t_config *cfg, t_md5 md5, t_mvars *vars)
+{
+	t_mvars	v;
+
+	v = vars[0];
+	v.j = 0;
+	v.t = 0;
+	while (cfg->argv[v.n][v.j += 1])
+		if (cfg->argv[v.n][v.j] == 'p' && !(md5.object.fd = 0))
+			md5_stdin(&md5);
+		else if ((md5.option.q = cfg->argv[v.n][v.j] == 'q'))
+			md5.option.r = 0;
+		else if (!md5.option.q && cfg->argv[v.n][v.j] == 'r')
+			md5.option.r = !md5.option.q;
+		else if (cfg->argv[v.n][v.j] == 's')
+			break ;
+	if (cfg->argv[v.n][v.j] == 's' && !(v.t = &cfg->argv[v.n][v.j])[1]
+			&& ((v.n += 1) && v.t && v.n < cfg->argc))
+		md5_input(-1, cfg->argv[v.n++], &md5);
+	vars[0] = v;
+	return (md5);
+}
 
 int
 	md5(t_config *cfg)
@@ -77,30 +100,20 @@ int
 	t_mvars	v;
 
 	ft_bzero(&md5, sizeof(md5));
-	if (!md5_args(cfg->argc - 2, &cfg->argv[v.n = 2], &md5))
-		md5_input(0, 0, &md5);
+	if (!md5_args(cfg->argc - (v.n = 2), &cfg->argv[2], &md5))
+		md5_stdin(&md5);
 	else
 	{
-		while(v.n < cfg->argc && *cfg->argv[v.n] == '-' && !(v.t = 0) && !(v.j = 0))
+		while(!(v.t = 0) && v.n < cfg->argc && *cfg->argv[v.n] == '-')
 		{
-			while (((v.j += 1) || 1) && cfg->argv[v.n][v.j])
-				if (cfg->argv[v.n][v.j] == 'p' && !(md5.object.fd = 0))
-					md5_stdin(&md5);
-				else if ((md5.option.q = cfg->argv[v.n][v.j] == 'q'))
-					md5.option.r = 0;
-				else if (!md5.option.q && cfg->argv[v.n][v.j] == 'r')
-					md5.option.r = !md5.option.q;
-				else if (cfg->argv[v.n][v.j] == 's')
-					break ;
+			md5 = md5_arg(cfg, md5, &v);
 			if (cfg->argv[v.n][v.j] == 's' && (v.t = &cfg->argv[v.n][v.j])[1])
 				break ;
-			else if (v.t && v.n + 1 < cfg->argc && (v.n += 1))
-				md5_input(-1, cfg->argv[v.n++], &md5);
 		}
-		if (v.t[1] && (v.n += 1))
+		if (v.t && v.t[1] && (v.n += 1))
 			md5_input(-1, &v.t[1], &md5);
-		while (v.n < cfg->argc)
-			md5_input(0, cfg->argv[v.n++], &md5);
+		while (v.n < cfg->argc && (md5.object.fd = open_fd(cfg->argv[v.n])))
+			md5_stdin(&md5);
 	}
 	return (md5.ret);
 }

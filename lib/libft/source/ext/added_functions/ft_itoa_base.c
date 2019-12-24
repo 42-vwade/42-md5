@@ -6,7 +6,7 @@
 /*   By: viwade <viwade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/23 21:58:04 by viwade            #+#    #+#             */
-/*   Updated: 2019/06/11 00:43:37 by viwade           ###   ########.fr       */
+/*   Updated: 2019/12/24 02:18:07 by viwade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,18 @@
 #define BASE16_LOWER "0123456789abcdef"
 #define BASE16_UPPER "0123456789ABCDEF"
 #define ABS(x) ((x) < 0) ? -(x) : (x)
-#define FT_ITOA_SIZE(x) ((x) < 0) ? 3 : 2
+#define FT_ITOA_SIZE(x) 
 #define FT_ITOA_PUT(k,n,b,a) (a) = (k)[ABS(n) % b]; n /= b
+
+/*
+**	static void
+**		recurse(int n, char *s, unsigned long long value)
+**	{
+**		if (n)
+**			recurse(n - 1, s, value / 10);
+**		s[n] = value % 10;
+**	}
+*/
 
 char	*ft_itoa_base(unsigned long long n, int base)
 {

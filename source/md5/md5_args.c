@@ -6,7 +6,7 @@
 /*   By: viwade <viwade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/04 17:48:38 by viwade            #+#    #+#             */
-/*   Updated: 2019/12/16 09:39:44 by viwade           ###   ########.fr       */
+/*   Updated: 2019/12/24 02:03:37 by viwade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,18 @@ static t_bool
 t_bool
 	md5_args(int n, char **v, t_md5 *m)
 {
-	static int		c;
+	int		i;
+	int		c;
 
-	if (!n || (--c && 0))
+	if (((i = !n)))
 		return (0);
-	else
-		while (++c < n)
-			if (!(v[c][0] == '-' && parse(&v[c][1], &m->option)))
-				break ;
-	return (1 && !(c = 0));
+	while (v[i][c = 0] != '-' && i < n)
+		if (++i == n)
+			return (0);
+	while (i < n && (i += 1))
+		if ((c += !(v[i - 1][0] == '-' && parse(&v[i - 1][1], &m->option))))
+			break ;
+	return (c);
 }
 
 /*
@@ -53,7 +56,7 @@ t_bool
 **		-	Display contents of file (as it is read, presumably)
 **		-	If given, an attempt to read stdin must be made before doing
 **			anything else.
-**	-	q: Quiet mode (Meaning?)
+**	-	q: Quiet mode (Meaning?) -- print only hash
 **	-	r: Reverse display. Print md5 hash followed by input string.
 **	-	s:
 */
