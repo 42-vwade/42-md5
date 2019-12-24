@@ -6,7 +6,7 @@
 /*   By: viwade <viwade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 09:14:33 by viwade            #+#    #+#             */
-/*   Updated: 2019/12/19 16:57:47 by viwade           ###   ########.fr       */
+/*   Updated: 2019/12/22 18:46:33 by viwade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ void
 	md5->result[2] += md5->c;
 	md5->result[3] += md5->d;
 }
+ 
 
 int
 	md5(t_config *cfg)
@@ -76,7 +77,7 @@ int
 	int		n = 2;
 
 	ft_bzero(&md5, sizeof(md5));
-	if (!md5_args(cfg->argc - 2, &cfg->argv[2], &md5) && 0)
+	if (!md5_args(cfg->argc - 2, &cfg->argv[2], &md5))
 		md5_input(0, 0, &md5);
 	else
 	{

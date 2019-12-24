@@ -6,7 +6,7 @@
 /*   By: viwade <viwade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/13 04:19:53 by viwade            #+#    #+#             */
-/*   Updated: 2019/12/19 17:27:55 by viwade           ###   ########.fr       */
+/*   Updated: 2019/12/22 20:38:44 by viwade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,11 @@ static void
 		i += 2;
 	}
 	format = (char *[]){"MD5 (\"%s\") = %s\n", "MD5 (%s) = %s\n",
-			"%s %s\n", "%s\n"};
-	if (md5->option.r)
-		ft_printf (format[2 + md5->option.q], hex, md5->option.q ? "" : md5->object.data);
+			"%s\n", "%s %s\n"};
+	if (!md5->object.data)
+		ft_printf (format[3], hex);
+	else if (md5->option.r || md5->option.q)
+		ft_printf (format[2 + md5->option.r], hex, md5->option.q ? "" : md5->object.data);
 	else
 		ft_printf(format[md5->object.fd], md5->option.q ? "" :
 			md5->object.data, hex);
@@ -118,6 +120,7 @@ void
 		md5_string(md5);
 	else
 		md5_readin(md5);
+	close(md5->object.fd);
 }
 
 /*
