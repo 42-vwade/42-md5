@@ -44,7 +44,7 @@
 			,	"request": "launch"
 			,	"program": "${workspaceFolder}/ft_ssl"
 			,	"args": [
-				"md5", "<", "123"
+				"md5", "-s", "abc", "123"
 			]
 			,	"stopAtEntry": false
 			,	"cwd": "${workspaceFolder}"

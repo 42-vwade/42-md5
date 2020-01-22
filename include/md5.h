@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   md5.h                                           :+:      :+:    :+:   */
+/*   md5.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: viwade <viwade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 09:14:53 by viwade            #+#    #+#             */
-/*   Updated: 2019/10/17 10:18:37 by viwade           ###   ########.fr       */
+/*   Updated: 2019/12/30 06:04:12 by viwade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,9 @@
 # define B	0xefcdab89
 # define C	0x98BADCFE
 # define D	0x10325476
-// # define F(b,c,d)	((b & c) | (~b & d))
-// # define G(b,c,d)	((d & b) | (~d & c))
-// //# define G(b,c,d)	(((b) & (c)) | ((b) & ~(d)))
-// # define H(b,c,d)	((b ^ c ^ d))
-// # define I(b,c,d)	((c ^ (b |~ d)))
-// # define R(x,n)		(((x) << (n)) | ((x) >> (32 - (n))))
-// # define S(a,b,c,d)	{a = d; d = c; c = b;}
-# define HEXA		"0123456789abcdef"
+# define HEXA "0123456789abcdef"
 
-enum e_mode{
+enum	e_mode{
 	md5_str = 1,
 	md5_fd = 2
 };
@@ -77,14 +70,14 @@ struct	s_md5
 	t_option		option;
 };
 
-void		md5_algorithm(t_md5 *md5_object);
-void		md5_input(int fd, char *string, t_md5 *md5);
-void		md5_stdin(t_md5 *md5);
-void		md5_string(t_md5 *md5);
-void		md5_print(t_md5 *md5);
-t_bool		md5_args(int n, char **v, t_md5 *md5);
-unsigned	ff(unsigned i, unsigned *f, int a[3], int mode);
-unsigned	m_rr(unsigned value, unsigned shift);
+void	md5_algorithm(t_md5 *md5_object);
+void	md5_input(int fd, char *string, t_md5 *md5);
+void	md5_stdin(t_md5 *md5);
+void	md5_string(t_md5 *md5);
+void	md5_print(t_md5 *md5);
+t_bool	md5_args(int n, char **v, t_md5 *md5);
+ull_t	ff(unsigned i, unsigned *f, int a[3], int mode);
+ull_t	m_rr(unsigned value, unsigned shift);
 void		m_rotate(unsigned *a, unsigned *b, unsigned *c, unsigned *d);
 
 #endif

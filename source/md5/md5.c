@@ -6,22 +6,20 @@
 /*   By: viwade <viwade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 09:14:33 by viwade            #+#    #+#             */
-/*   Updated: 2019/12/24 03:34:04 by viwade           ###   ########.fr       */
+/*   Updated: 2019/12/30 10:10:52 by viwade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "md5.h"
 
-const unsigned
-	g_md5_shift[16] = {
+const unsigned	g_md5_shift[16] = {
 	7, 12, 17, 22,
 	5, 9, 14, 20,
 	4, 11, 16, 23,
 	6, 10, 15, 21
 };
 
-const unsigned
-	g_md5_key[64] = {
+const unsigned	g_md5_key[64] = {
 	0xd76aa478, 0xe8c7b756, 0x242070db, 0xc1bdceee,
 	0xf57c0faf, 0x4787c62a, 0xa8304613, 0xfd469501,
 	0x698098d8, 0x8b44f7af, 0xffff5bb1, 0x895cd7be,
@@ -104,7 +102,7 @@ int
 		md5_stdin(&md5);
 	else
 	{
-		while(!(v.t = 0) && v.n < cfg->argc && *cfg->argv[v.n] == '-')
+		while (!(v.t = 0) && v.n < cfg->argc && *cfg->argv[v.n] == '-')
 		{
 			md5 = md5_arg(cfg, md5, &v);
 			if (cfg->argv[v.n][v.j] == 's' && (v.t = &cfg->argv[v.n][v.j])[1])
@@ -112,7 +110,7 @@ int
 		}
 		if (v.t && v.t[1] && (v.n += 1))
 			md5_input(-1, &v.t[1], &md5);
-		while (v.n < cfg->argc && (md5.object.fd = open_fd(cfg->argv[v.n])))
+		while (v.n < cfg->argc && (md5.object.fd = open_fd(cfg->argv[v.n++])))
 			md5_stdin(&md5);
 	}
 	return (md5.ret);
